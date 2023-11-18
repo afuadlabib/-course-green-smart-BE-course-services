@@ -1,6 +1,5 @@
-package com.smartgreen.course.domain.entity;
+package com.smartgreen.course.models.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

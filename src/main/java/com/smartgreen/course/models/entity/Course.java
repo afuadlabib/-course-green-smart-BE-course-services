@@ -1,5 +1,7 @@
-package com.smartgreen.course.domain.entity;
+package com.smartgreen.course.models.entity;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,5 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Course extends History {
     @Id
     String id;
+
+
     String name;
+    @NotBlank
+    @NotNull
+    String category;
 }

@@ -1,4 +1,4 @@
-package com.smartgreen.course.domain.body;
+package com.smartgreen.course.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class BodyResponse<T> {
-    Integer statusCode;
-    T data;
+    private Integer statusCode;
+    private T data;
 }

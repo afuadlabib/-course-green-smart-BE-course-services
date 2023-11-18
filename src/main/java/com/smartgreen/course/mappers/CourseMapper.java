@@ -1,10 +1,12 @@
 package com.smartgreen.course.mappers;
 
-import com.smartgreen.course.domain.dto.CourseDto;
-import com.smartgreen.course.domain.entity.Course;
+import com.smartgreen.course.models.dto.CourseDto;
+import com.smartgreen.course.models.entity.Course;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class CourseMapper extends Mapper<Course, CourseDto>{

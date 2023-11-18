@@ -1,8 +1,10 @@
 package com.smartgreen.course.services;
 
-import com.smartgreen.course.domain.body.BodyResponse;
-import com.smartgreen.course.domain.dto.CourseDto;
-import com.smartgreen.course.domain.entity.Course;
+import com.smartgreen.course.models.BodyResponse;
+import com.smartgreen.course.models.body.BodyMessage;
+import com.smartgreen.course.models.dto.CourseDto;
+import com.smartgreen.course.models.entity.Course;
+import com.smartgreen.course.exceptions.NotFoundException;
 import com.smartgreen.course.mappers.CourseMapper;
 import com.smartgreen.course.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,43 +12,50 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     @Autowired
-    public CourseService(CourseRepository courseRepository, CourseMapper courseMapper) {
+    public CourseService(
+            CourseRepository courseRepository
+            , CourseMapper courseMapper
+    ) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
     }
 
-    public ResponseEntity<?>getAllCourse(){
-        List<Course> data = courseRepository.findAll();
-        BodyResponse<Object> body = BodyResponse
-                .builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(data)
-                .build();
-        return ResponseEntity
-                .status(200)
-                .body(body);
+    public List<Course>getAllCourse(){
+        return courseRepository.findAll();
     }
+    public CourseDto createCourse(Course course){
+        return courseMapper
+                .mapToDto(courseRepository.save(course));
 
-    public ResponseEntity<?> createCourse(Course course){
-        CourseDto createdCourse = courseMapper.mapToDto(courseRepository.insert(course));
-        BodyResponse<?> body = BodyResponse.builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .data(createdCourse)
+    }
+    public Optional<Course> findCourseById(String id)throws NotFoundException{
+            Optional<Course> course = courseRepository.findById(id);
+            if(course.isEmpty()){
+                throw new NotFoundException("Course not found");
+            }
+            return course;
+    }
+    public Course updateCourse(String id,Course course){
+        Optional<Course> findCourse = courseRepository.findById(id);
+        if(findCourse.isEmpty()) throw new NotFoundException("Course not found");
+        return courseRepository.save(course);
+
+    }
+    public BodyMessage deleteCourse(String id){
+        Optional<Course> findCourse = courseRepository.findById(id);
+        if(findCourse.isEmpty()) throw new NotFoundException("Course not found");
+        courseRepository.deleteById(id);
+        return BodyMessage.builder()
+                .message("Course Deleted Success")
                 .build();
-        System.out.println(body);
-        return ResponseEntity
-                .status(HttpStatus.CREATED.value())
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(body);
     }
 }
