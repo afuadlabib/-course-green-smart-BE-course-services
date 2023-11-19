@@ -1,4 +1,4 @@
-package com.smartgreen.course.exceptions;
+package com.smartgreen.course.models.body;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BodyResponseValidException {
+public class ValidExceptionResponse {
     private int statusCode;
     private Date timeStamp;
-    private List<String> errorsMessage;
+    private String message;
+    private List<String> errors;
 }

@@ -14,10 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Course extends History {
     @Id
     String id;
-
-
-    String name;
     @NotBlank
     @NotNull
-    String category;
+    String name;
 }

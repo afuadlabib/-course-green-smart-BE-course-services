@@ -1,8 +1,7 @@
 package com.smartgreen.course.controllers;
 
-import com.smartgreen.course.models.BodyResponse;
-import com.smartgreen.course.models.body.BodyMessage;
-import com.smartgreen.course.models.dto.CourseDto;
+import com.smartgreen.course.models.body.EntityResponse;
+import com.smartgreen.course.models.body.Message;
 import com.smartgreen.course.models.entity.Course;
 import com.smartgreen.course.services.CourseService;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/course-services")
@@ -28,11 +26,8 @@ public class CourseController {
     }
     @GetMapping(path = "/courses")
     public ResponseEntity<?> getAllCourse(){
-        List<Course> courses = courseService.getAllCourse();
-        BodyResponse<Object> body = BodyResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(courses)
-                .build();
+        EntityResponse<Object> body = courseService.getAllCourse();
+
         return ResponseEntity
                 .status(200)
                 .body(body);
@@ -46,31 +41,23 @@ public class CourseController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> createCourse(@Valid Course course){
-        CourseDto createdCourse = courseService.createCourse(course);
-        BodyResponse<?> body = BodyResponse
-                .builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .data(createdCourse)
-                .build();
+        EntityResponse<?> createdCourse = courseService.createCourse(course);
         return ResponseEntity
                 .status(HttpStatus.CREATED.value())
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(body);
+                .body(createdCourse);
     }
 
     @PostMapping(path = "/courses",
            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCourse1(@Valid @RequestBody Course course){
+
         return createCourse(course);
     }
     @GetMapping(path = "/courses/{id}")
     public ResponseEntity<?> findCourseById(@PathVariable String id){
-        Optional<Course> course = courseService.findCourseById(id);
-        BodyResponse<?> body = BodyResponse
-                .builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(course)
-                .build();
+        EntityResponse<?> body = courseService.findCourseById(id);
+
         return ResponseEntity
                 .status(200)
                 .body(body);
@@ -78,22 +65,14 @@ public class CourseController {
 
     @PutMapping(path = "/courses/{id}")
     public ResponseEntity<?> updateCourse(@PathVariable String id, @RequestBody Course course){
-        Course courseUpdated = courseService.updateCourse(id, course);
-        BodyResponse<?> body = BodyResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(courseUpdated)
-                .build();
+        EntityResponse<?> body = courseService.updateCourse(id, course);
         return ResponseEntity
                 .status(200)
                 .body(body);
     }
     @DeleteMapping(path = "/courses/{id}")
     public ResponseEntity<?> deleteCourse(@PathVariable String id){
-        BodyMessage message =  courseService.deleteCourse(id);
-        BodyResponse<?> body = BodyResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(message)
-                .build();
+        EntityResponse<?> body = courseService.deleteCourse(id);
         return ResponseEntity
                 .status(200)
                 .body(body);

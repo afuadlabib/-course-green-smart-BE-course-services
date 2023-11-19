@@ -24,8 +24,9 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.modelmapper:modelmapper:3.2.0")
+	implementation("org.springframework.security:spring-security-crypto:6.1.5")
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.1.5")
+	implementation("io.jsonwebtoken:jjwt:0.12.3")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

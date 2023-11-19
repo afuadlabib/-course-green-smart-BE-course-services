@@ -1,6 +1,7 @@
 package com.smartgreen.course.exceptions;
 
-import org.springframework.http.HttpHeaders;
+import com.smartgreen.course.models.body.ExceptionResponse;
+import com.smartgreen.course.models.body.ValidExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,11 +19,12 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(NotFoundException n){
-        BodyResponseException b = BodyResponseException.builder()
+        ExceptionResponse b = ExceptionResponse.builder()
                 .message(n.getMessage())
                 .timeStamp(new Date())
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .build();
+
         return ResponseEntity
                 .status(404)
                 .body(b);
@@ -34,16 +36,20 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
-        BodyResponseValidException body = BodyResponseValidException.builder()
+
+        ValidExceptionResponse body = ValidExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message("Validation error")
                 .timeStamp(new Date())
-                .errorsMessage(errors)
+                .errors(errors)
                 .build();
+
         return ResponseEntity.status(400).body(body);
     }
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);
+
         return errorResponse;
     }
 }

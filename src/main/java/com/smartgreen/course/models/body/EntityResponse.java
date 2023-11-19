@@ -1,4 +1,4 @@
-package com.smartgreen.course.models;
+package com.smartgreen.course.models.body;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class BodyResponse<T> {
+public class EntityResponse<T> {
     private Integer statusCode;
     private T data;
 }
