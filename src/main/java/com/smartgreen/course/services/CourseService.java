@@ -1,7 +1,7 @@
 package com.smartgreen.course.services;
 
 import com.smartgreen.course.models.body.EntityResponse;
-import com.smartgreen.course.models.body.Message;
+import com.smartgreen.course.models.dto.MessageDto;
 import com.smartgreen.course.models.entity.Course;
 import com.smartgreen.course.exceptions.NotFoundException;
 import com.smartgreen.course.repositories.CourseRepository;
@@ -57,7 +57,7 @@ public class CourseService {
     public EntityResponse<Object> deleteCourse(String id) throws NotFoundException {
         Course findCourse = courseRepository.findById(id).orElseThrow(()-> new NotFoundException("Course not found"));
         courseRepository.deleteById(id);
-        Message message =  Message.builder()
+        MessageDto message =  MessageDto.builder()
                 .message("Course with name: "+ findCourse.getName() +" is deleted success")
                 .build();
         return EntityResponse.builder()

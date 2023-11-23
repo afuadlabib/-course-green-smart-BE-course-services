@@ -46,6 +46,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(400).body(body);
     }
+    @ExceptionHandler(UnAuthorizeException.class)
+    public ResponseEntity<?> unAuthorize(UnAuthorizeException unAuthorizeException){
+        ExceptionResponse b = ExceptionResponse.builder()
+                .message(unAuthorizeException.getMessage())
+                .timeStamp(new Date())
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .build();
+        return ResponseEntity.status(401).body(b);
+    }
     private Map<String, List<String>> getErrorsMap(List<String> errors) {
         Map<String, List<String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);

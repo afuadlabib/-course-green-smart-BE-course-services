@@ -1,27 +1,33 @@
 package com.smartgreen.course.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.transaction.annotation.Transactional;
 
 
-@Document(collection = "users")
+
+@Document(collection = "user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Transactional
+@CompoundIndex(def = "{'email': 1, 'password': 0}", unique = true)
 public class User {
-    @Autowired
-    @Indexed(unique = true)
-    private String username;
+    @Id
+    String id;
+    @NotNull
+    @NotBlank
+    @Indexed(unique = true, background = true)
+    private String email;
+    @NotNull
+    @NotBlank
     private String password;
     @JsonEnumDefaultValue
-    private Role role;
-
+    private Role role = Role.USER;
 }

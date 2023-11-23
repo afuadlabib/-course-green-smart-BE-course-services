@@ -1,7 +1,6 @@
 package com.smartgreen.course.controllers;
 
 import com.smartgreen.course.models.body.EntityResponse;
-import com.smartgreen.course.models.body.Message;
 import com.smartgreen.course.models.entity.Course;
 import com.smartgreen.course.services.CourseService;
 import jakarta.validation.Valid;
@@ -10,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/course-services")

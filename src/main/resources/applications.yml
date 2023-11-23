@@ -4,6 +4,7 @@ spring:
       database: test1
       host: localhost
       port: 27017
+      auto-index-creation: true
   devtool:
     restart:
       enabled: true
